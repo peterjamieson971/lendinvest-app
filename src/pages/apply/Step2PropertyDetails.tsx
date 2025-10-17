@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight, ArrowLeft, Home, CheckCircle, Shield } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationLayout } from '../../components/layout/ApplicationLayout';
 import { Button } from '../../components/common/Button';
