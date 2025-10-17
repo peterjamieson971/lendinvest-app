@@ -45,7 +45,7 @@ export const Login: React.FC = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0A1628]/20 to-[#0A1628]/40" />
         <div className="relative z-10 flex flex-col justify-between p-12 text-white">
-          <div>
+          <div className="mt-24">
             <h2 className="text-4xl font-bold mb-4">Transform Your Property Investment</h2>
             <p className="text-lg text-white/90">Secure, professional lending solutions for modern investors</p>
           </div>

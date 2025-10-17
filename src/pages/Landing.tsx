@@ -73,8 +73,8 @@ export const Landing: React.FC = () => {
             alt="Property Finance"
             className="w-full h-full object-cover object-center"
           />
-          {/* Lighter overlay with less blur for better image visibility */}
-          <div className="absolute inset-0 bg-white/30" />
+          {/* Darker overlay to support white text */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/60 to-[#0A1628]/30" />
         </div>
 
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
@@ -82,12 +82,12 @@ export const Landing: React.FC = () => {
             {/* Content */}
             <div>
               {/* Headline */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight text-[#0A1628]">
-                Property Finance, Simplified
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight text-white drop-shadow-lg">
+                Property Finance, <span className="text-[#FFB800]">Simplified</span>
               </h1>
 
               {/* Subheadline */}
-              <p className="text-2xl md:text-3xl text-[#0A1628]/90 mb-12 leading-relaxed font-medium max-w-3xl">
+              <p className="text-xl md:text-2xl text-white/95 mb-12 leading-relaxed font-medium max-w-3xl drop-shadow-md">
                 Get a bridging loan decision in principle in minutes. Funds in as little as 5-7 days. No hidden fees, no surprises.
               </p>
 
@@ -158,9 +158,9 @@ export const Landing: React.FC = () => {
               <div className="flex items-center justify-center w-12 h-12 bg-[#FFB800]/10 rounded-lg mb-4">
                 <Zap className="w-6 h-6 text-[#FFB800]" />
               </div>
-              <h3 className="text-xl font-bold text-[#0A1628] mb-2">Lightning Fast</h3>
+              <h3 className="text-xl font-bold text-[#0A1628] mb-2">Fast Decision Making</h3>
               <p className="text-[#64748B]">
-                Get approved in 5-7 days, not weeks. Our AI-powered platform processes applications instantly.
+                Decision in principle in 24 hours. Funds released in 5-7 days. We understand timing is critical in property transactions.
               </p>
             </Card>
 
@@ -169,9 +169,9 @@ export const Landing: React.FC = () => {
               <div className="flex items-center justify-center w-12 h-12 bg-[#FFB800]/10 rounded-lg mb-4">
                 <Eye className="w-6 h-6 text-[#FFB800]" />
               </div>
-              <h3 className="text-xl font-bold text-[#0A1628] mb-2">Fully Transparent</h3>
+              <h3 className="text-xl font-bold text-[#0A1628] mb-2">Clear Pricing, No Surprises</h3>
               <p className="text-[#64748B]">
-                See exactly how we make decisions. No black boxes, no hidden fees, just clarity.
+                Upfront rates and fees with no hidden charges. See exactly what you'll pay before you commit.
               </p>
             </Card>
 
@@ -180,9 +180,9 @@ export const Landing: React.FC = () => {
               <div className="flex items-center justify-center w-12 h-12 bg-[#FFB800]/10 rounded-lg mb-4">
                 <Shield className="w-6 h-6 text-[#FFB800]" />
               </div>
-              <h3 className="text-xl font-bold text-[#0A1628] mb-2">Secure & Regulated</h3>
+              <h3 className="text-xl font-bold text-[#0A1628] mb-2">Trusted & Established</h3>
               <p className="text-[#64748B]">
-                FCA regulated and LSE listed. Your investment is protected by industry-leading security.
+                FCA regulated lender since 2008. Over £7bn lent to property investors across the UK.
               </p>
             </Card>
           </div>
