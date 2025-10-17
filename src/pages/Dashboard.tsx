@@ -3,6 +3,8 @@ import { Clock, ArrowRight, CheckCircle, Upload, FileText, Mail, Phone, Calendar
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
+import { UserMenu } from '../components/common/UserMenu';
+import { useAuth } from '../contexts/AuthContext';
 
 const TIMELINE_STEPS = [
   {
@@ -52,6 +54,7 @@ const DOCUMENTS = [
 ];
 
 export const Dashboard: React.FC = () => {
+  const { user } = useAuth();
   const estimatedCompletionDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'short',
@@ -59,44 +62,49 @@ export const Dashboard: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Header */}
-      <header className="bg-white border-b border-[#E2E8F0] sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <img
-              src="https://cdn.mortgagestrategy.co.uk/content/uploads/2016/05/LendInvest-logo--768x270.gif"
-              alt="LendInvest"
-              className="h-10"
-              onError={(e) => {
-                const target = e.currentTarget as HTMLImageElement;
-                target.style.display = 'none';
-                if (target.parentElement) {
-                  const fallback = document.createElement('div');
-                  fallback.className = 'text-2xl font-bold text-[#FFB800]';
-                  fallback.textContent = 'LendInvest';
-                  target.parentElement.appendChild(fallback);
-                }
-              }}
-            />
-            <div className="flex items-center gap-4">
-              <button className="text-sm text-[#64748B] hover:text-[#0A1628] transition-colors">
-                Settings
-              </button>
-              <button className="text-sm text-[#64748B] hover:text-[#0A1628] transition-colors">
-                Sign Out
-              </button>
+    <div className="min-h-screen relative">
+      {/* Background Image */}
+      <div className="fixed inset-0 z-0">
+        <img
+          src="/shutterstock_2515872331.jpg"
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-white/20 backdrop-blur-sm" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Header */}
+        <header className="bg-white/90 backdrop-blur-md border-b border-[#E2E8F0]/50 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-between">
+              <img
+                src="https://cdn.mortgagestrategy.co.uk/content/uploads/2016/05/LendInvest-logo--768x270.gif"
+                alt="LendInvest"
+                className="h-10"
+                onError={(e) => {
+                  const target = e.currentTarget as HTMLImageElement;
+                  target.style.display = 'none';
+                  if (target.parentElement) {
+                    const fallback = document.createElement('div');
+                    fallback.className = 'text-2xl font-bold text-[#FFB800]';
+                    fallback.textContent = 'LendInvest';
+                    target.parentElement.appendChild(fallback);
+                  }
+                }}
+              />
+              <UserMenu />
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-[#0A1628] mb-2">
-            Welcome back, John
+            Welcome back, {user?.name}
           </h1>
           <p className="text-[#64748B]">
             Here's the status of your bridging loan application
@@ -290,6 +298,7 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
       </main>
+      </div>
     </div>
   );
 };

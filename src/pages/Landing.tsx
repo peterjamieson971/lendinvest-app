@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { ArrowRight, Shield, TrendingUp, Clock, Zap, Eye, CheckCircle } from 'lucide-react';
+import { ArrowRight, Shield, TrendingUp, Clock, Zap, Eye, CheckCircle, LogIn } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
 import { Card } from '../components/common/Card';
+import { UserMenu } from '../components/common/UserMenu';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export const Landing: React.FC = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [propertyValue, setPropertyValue] = useState('300000');
   const [loanAmount, setLoanAmount] = useState('200000');
 
@@ -40,10 +43,22 @@ export const Landing: React.FC = () => {
                 }
               }}
             />
-            <nav className="hidden md:flex items-center gap-8">
-              <a href="#products" className="text-[#64748B] hover:text-[#0A1628] text-sm font-medium transition-colors">Products</a>
-              <a href="#about" className="text-[#64748B] hover:text-[#0A1628] text-sm font-medium transition-colors">About</a>
-              <Button variant="primary" size="sm" onClick={() => navigate('/apply/step1')}>Apply Now</Button>
+            <nav className="flex items-center gap-4 md:gap-8">
+              <a href="#products" className="hidden md:inline text-[#64748B] hover:text-[#0A1628] text-sm font-medium transition-colors">Products</a>
+              <a href="#about" className="hidden md:inline text-[#64748B] hover:text-[#0A1628] text-sm font-medium transition-colors">About</a>
+
+              {isAuthenticated ? (
+                <UserMenu />
+              ) : (
+                <div className="flex items-center gap-3">
+                  <Button variant="ghost" size="sm" icon={<LogIn />} onClick={() => navigate('/login')}>
+                    Sign In
+                  </Button>
+                  <Button variant="primary" size="sm" onClick={() => navigate('/login')}>
+                    Apply Now
+                  </Button>
+                </div>
+              )}
             </nav>
           </div>
         </div>
@@ -62,16 +77,10 @@ export const Landing: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/95 via-[#0A1628]/85 to-[#0A1628]/70" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="max-w-3xl">
             {/* Content */}
             <div>
-              {/* Trust Badge */}
-              <div className="inline-flex items-center gap-2 bg-[#FFB800]/20 border border-[#FFB800]/30 rounded-full px-4 py-2 mb-6">
-                <Shield className="w-4 h-4 text-[#FFB800]" />
-                <span className="text-sm font-semibold text-[#FFB800]">FCA Regulated • £8bn+ Lent</span>
-              </div>
-
               {/* Headline */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Property Finance,{' '}
@@ -85,7 +94,7 @@ export const Landing: React.FC = () => {
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 mb-16">
-                <Button variant="primary" size="lg" onClick={() => navigate('/apply/step1')}>
+                <Button variant="primary" size="lg" onClick={() => navigate(isAuthenticated ? '/apply/step1' : '/login')}>
                   Start Your Application
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
@@ -102,7 +111,7 @@ export const Landing: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 text-[#FFB800] mb-2">
                     <TrendingUp className="w-5 h-5" />
-                    <span className="text-3xl font-bold">£8bn+</span>
+                    <span className="text-3xl font-bold">£7bn+</span>
                   </div>
                   <p className="text-sm text-slate-400">Total Lent</p>
                 </div>

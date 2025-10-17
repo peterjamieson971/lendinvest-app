@@ -15,11 +15,11 @@ export const Card: React.FC<CardProps> = ({
   highlighted = false,
   onClick
 }) => {
-  const baseClasses = "bg-white rounded-xl border shadow-sm transition-all duration-200";
+  const baseClasses = "bg-white/95 backdrop-blur-md rounded-xl border shadow-sm transition-all duration-200";
   const hoverClasses = hover ? "hover:shadow-md hover:border-[#CBD5E1] cursor-pointer hover:-translate-y-0.5" : "";
   const highlightClasses = highlighted
-    ? "border-[#FFB800] bg-[#FFFBF0] shadow-md"
-    : "border-[#E2E8F0]";
+    ? "border-[#FFB800] bg-[#FFFBF0]/95 shadow-md"
+    : "border-[#E2E8F0]/50";
 
   return (
     <div
