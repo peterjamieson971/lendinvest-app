@@ -12,20 +12,19 @@ import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 export const Step2PropertyDetails: React.FC = () => {
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState('');
+  const [houseNumber, setHouseNumber] = useState('');
+  const [postcode, setPostcode] = useState('');
   const [showValuation, setShowValuation] = useState(false);
   const [isLoadingValuation, setIsLoadingValuation] = useState(false);
   const [mockValuation, setMockValuation] = useState(0);
   const [ownership, setOwnership] = useState('');
-  const [income, setIncome] = useState('');
-  const [experience, setExperience] = useState('');
   const [description, setDescription] = useState('');
 
-  // Credit check states
-  const [creditCheckComplete, setCreditCheckComplete] = useState(false);
-  const [isCheckingCredit, setIsCheckingCredit] = useState(false);
-  const [mockCreditScore, setMockCreditScore] = useState(0);
-  const [mockCreditRating, setMockCreditRating] = useState('');
+  // Property details state - populated after valuation
+  const [bedrooms, setBedrooms] = useState('');
+  const [bathrooms, setBathrooms] = useState('');
+  const [garages, setGarages] = useState('');
+  const [livingRooms, setLivingRooms] = useState('');
 
   const generatePropertyDescription = (addr: string, value: number): string => {
     // Extract area/street info from address
@@ -41,7 +40,16 @@ export const Step2PropertyDetails: React.FC = () => {
     }
   };
 
+  // Resolve address when house number and postcode are entered
+  const resolveAddress = () => {
+    if (houseNumber === '4' && postcode.toUpperCase() === 'ML6 9HU') {
+      return '4 Brennan Crescent, Airdrie, North Lanarkshire, ML6 9HU';
+    }
+    return `${houseNumber}, ${postcode}`;
+  };
+
   const handleGetValuation = () => {
+    const addr = resolveAddress();
     setIsLoadingValuation(true);
     setShowValuation(true);
     setTimeout(() => {
@@ -49,45 +57,33 @@ export const Step2PropertyDetails: React.FC = () => {
       setMockValuation(val);
 
       // Auto-generate property description based on address
-      const autoDescription = generatePropertyDescription(address, val);
+      const autoDescription = generatePropertyDescription(addr, val);
       setDescription(autoDescription);
+
+      // Populate property details after valuation
+      setBedrooms('5');
+      setBathrooms('3');
+      setGarages('2');
+      setLivingRooms('2');
 
       setIsLoadingValuation(false);
     }, 2000);
   };
 
-  const handleCreditCheck = () => {
-    setIsCheckingCredit(true);
-    setTimeout(() => {
-      // Generate mock credit score (680-780 for good applicants)
-      const score = Math.floor(Math.random() * (780 - 680) + 680);
-      setMockCreditScore(score);
-
-      // Determine rating
-      let rating = '';
-      if (score >= 750) rating = 'Excellent';
-      else if (score >= 700) rating = 'Very Good';
-      else if (score >= 650) rating = 'Good';
-      else rating = 'Fair';
-
-      setMockCreditRating(rating);
-      setCreditCheckComplete(true);
-      setIsCheckingCredit(false);
-    }, 3000);
-  };
 
   // Form validation
   const isValid = useMemo(() => {
     return !!(
-      address &&
+      houseNumber &&
+      postcode &&
       ownership &&
-      income &&
-      creditCheckComplete &&
-      experience &&
       description &&
-      parseInt(income.replace(/,/g, '')) > 0
+      bedrooms &&
+      bathrooms &&
+      garages &&
+      livingRooms
     );
-  }, [address, ownership, income, creditCheckComplete, experience, description]);
+  }, [houseNumber, postcode, ownership, description, bedrooms, bathrooms, garages, livingRooms]);
 
   const handleContinue = () => {
     if (isValid) {
@@ -108,18 +104,34 @@ export const Step2PropertyDetails: React.FC = () => {
             </p>
           </div>
 
-          {/* Property Address - Full width */}
-          <Input
-            label="Property Address"
-            type="text"
-            placeholder="Start typing address..."
-            helpText="Enter the full property address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
+          {/* Property Address - Two fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input
+              label="House Name or Number"
+              type="text"
+              placeholder="e.g. 4"
+              value={houseNumber}
+              onChange={(e) => setHouseNumber(e.target.value)}
+            />
+            <Input
+              label="Postcode"
+              type="text"
+              placeholder="e.g. ML6 9HU"
+              value={postcode}
+              onChange={(e) => setPostcode(e.target.value.toUpperCase())}
+            />
+          </div>
+
+          {/* Show resolved address */}
+          {houseNumber && postcode && (
+            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-4">
+              <p className="text-sm text-[#64748B] mb-1">Resolved Address:</p>
+              <p className="font-semibold text-[#0A1628]">{resolveAddress()}</p>
+            </div>
+          )}
 
           {/* Mock Valuation Feature */}
-          {address.length > 10 && !showValuation && (
+          {houseNumber && postcode && !showValuation && (
             <Button
               variant="secondary"
               size="sm"
@@ -167,96 +179,54 @@ export const Step2PropertyDetails: React.FC = () => {
             </>
           )}
 
-          {/* Two-column grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Select
-              label="Current Ownership Status"
-              options={[
-                { value: 'own', label: 'I own it' },
-                { value: 'offer', label: 'Under offer' },
-                { value: 'identified', label: 'Not yet identified' }
-              ]}
-              value={ownership}
-              onChange={(e) => setOwnership(e.target.value)}
-            />
-
-            <Input
-              label="Monthly Income"
-              prefix="£"
-              type="text"
-              placeholder="4,500"
-              value={income}
-              onChange={(e) => setIncome(e.target.value)}
-            />
-          </div>
-
-          {/* Credit Check */}
-          <div className="space-y-4">
-            <label className="block text-sm font-semibold text-[#0A1628]">
-              Credit Check
-            </label>
-
-            {!creditCheckComplete ? (
-              <div className="border-2 border-[#E2E8F0] rounded-lg p-6 text-center">
-                {isCheckingCredit ? (
-                  <div className="flex flex-col items-center gap-3">
-                    <LoadingSpinner size="md" />
-                    <p className="text-[#64748B]">Running soft credit check...</p>
-                    <p className="text-sm text-[#94A3B8]">This won't affect your credit score</p>
-                  </div>
-                ) : (
-                  <div>
-                    <Shield className="w-12 h-12 text-[#94A3B8] mx-auto mb-3" />
-                    <p className="text-[#64748B] mb-4">We need to verify your credit profile</p>
-                    <Button variant="secondary" onClick={handleCreditCheck}>
-                      <Shield className="w-5 h-5 mr-2" />
-                      Run Soft Credit Check
-                    </Button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Card highlighted className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#10B981]/10 rounded-lg flex items-center justify-center">
-                    <CheckCircle className="w-6 h-6 text-[#10B981]" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-lg font-bold text-[#0A1628]">Credit Check Complete</h3>
-                      <Badge variant="success">Verified ✓</Badge>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-[#64748B]">Credit Score:</p>
-                        <p className="text-2xl font-bold text-[#0A1628]">{mockCreditScore}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-[#64748B]">Rating:</p>
-                        <p className="text-lg font-semibold text-[#0A1628]">{mockCreditRating}</p>
-                      </div>
-                    </div>
-                    <p className="text-xs text-[#64748B] mt-3">
-                      This was a soft check and won't affect your credit score
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            )}
-          </div>
-
-          {/* Investment Experience */}
+          {/* Ownership Status */}
           <Select
-            label="Property Investment Experience"
+            label="Current Ownership Status"
             options={[
-              { value: 'first', label: 'First time investor' },
-              { value: '1-3', label: '1-3 properties' },
-              { value: '4-10', label: '4-10 properties' },
-              { value: '10+', label: '10+ properties (experienced)' }
+              { value: 'own', label: 'I own it' },
+              { value: 'offer', label: 'Under offer' },
+              { value: 'identified', label: 'Not yet identified' }
             ]}
-            value={experience}
-            onChange={(e) => setExperience(e.target.value)}
+            value={ownership}
+            onChange={(e) => setOwnership(e.target.value)}
           />
+
+          {/* Property Details Section - only show after valuation */}
+          {showValuation && !isLoadingValuation && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-bold text-[#0A1628] mb-1">Property Details</h3>
+                <p className="text-sm text-[#64748B]">Pre-populated from our database - please verify</p>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Input
+                  label="Bedrooms"
+                  type="number"
+                  value={bedrooms}
+                  onChange={(e) => setBedrooms(e.target.value)}
+                />
+                <Input
+                  label="Bathrooms"
+                  type="number"
+                  value={bathrooms}
+                  onChange={(e) => setBathrooms(e.target.value)}
+                />
+                <Input
+                  label="Garages"
+                  type="number"
+                  value={garages}
+                  onChange={(e) => setGarages(e.target.value)}
+                />
+                <Input
+                  label="Living Rooms"
+                  type="number"
+                  value={livingRooms}
+                  onChange={(e) => setLivingRooms(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
 
           {/* Property Description - Full width textarea */}
           <div>

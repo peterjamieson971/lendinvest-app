@@ -8,27 +8,19 @@ export const DemoInfo: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F1F5F9] via-[#E2E8F0] to-[#F8FAFC] flex items-center justify-center px-4">
-      <div className="w-full max-w-2xl">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <img
-            src="https://cdn.mortgagestrategy.co.uk/content/uploads/2016/05/LendInvest-logo--768x270.gif"
-            alt="LendInvest"
-            className="h-12 mx-auto mb-4"
-            onError={(e) => {
-              const target = e.currentTarget as HTMLImageElement;
-              target.style.display = 'none';
-              if (target.parentElement) {
-                const fallback = document.createElement('div');
-                fallback.className = 'text-3xl font-bold text-[#0A1628]';
-                fallback.textContent = 'LendInvest';
-                target.parentElement.appendChild(fallback);
-              }
-            }}
-          />
-        </div>
+    <div className="min-h-screen relative flex items-center justify-center px-4">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img
+          src="/shutterstock_2599873053.jpg"
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-sm" />
+      </div>
 
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-2xl">
         {/* Main Card */}
         <Card className="p-8 md:p-12">
           <div className="text-center">
@@ -53,18 +45,8 @@ export const DemoInfo: React.FC = () => {
                 this is actually a demonstration project I built for an interview process.
               </p>
               <p className="text-[#0A1628] leading-relaxed mb-4">
-                The good news? You can still explore the full application journey by signing in with the demo credentials:
+                The good news? You can still explore the full application journey by signing in with the demo credentials.
               </p>
-              <div className="bg-white rounded-lg p-4 mb-4 font-mono text-sm">
-                <div className="flex justify-between mb-2">
-                  <span className="text-[#64748B]">Email:</span>
-                  <span className="text-[#0A1628] font-semibold">john@home.com</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#64748B]">Password:</span>
-                  <span className="text-[#0A1628] font-semibold">111111</span>
-                </div>
-              </div>
               <p className="text-[#64748B] text-sm">
                 <strong className="text-[#0A1628]">Want to connect?</strong> Check out my work or get in touch below!
               </p>

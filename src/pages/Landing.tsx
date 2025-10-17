@@ -64,31 +64,30 @@ export const Landing: React.FC = () => {
         </div>
       </header>
 
-      {/* 2. HERO SECTION (dark gradient - THE MONEY SHOT) */}
-      <section className="relative bg-gradient-to-br from-[#0A1628] via-[#1A2738] to-[#0A1628] text-white overflow-hidden">
+      {/* 2. HERO SECTION */}
+      <section className="relative overflow-hidden min-h-[600px] flex items-center">
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
             src="/shutterstock_2651752607.jpg"
             alt="Property Finance"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
-          {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/95 via-[#0A1628]/85 to-[#0A1628]/70" />
+          {/* Lighter overlay with less blur for better image visibility */}
+          <div className="absolute inset-0 bg-white/30" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="max-w-3xl">
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+          <div className="max-w-4xl">
             {/* Content */}
             <div>
               {/* Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Property Finance,{' '}
-                <span className="text-[#FFB800]">Simplified</span>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight text-[#0A1628]">
+                Property Finance, Simplified
               </h1>
 
               {/* Subheadline */}
-              <p className="text-xl md:text-2xl text-slate-300 mb-8 leading-relaxed">
+              <p className="text-2xl md:text-3xl text-[#0A1628]/90 mb-12 leading-relaxed font-medium max-w-3xl">
                 Get a bridging loan decision in principle in minutes. Funds in as little as 5-7 days. No hidden fees, no surprises.
               </p>
 
@@ -100,34 +99,40 @@ export const Landing: React.FC = () => {
                 </Button>
                 <button
                   onClick={() => document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="inline-flex items-center justify-center bg-white/10 backdrop-blur-sm border-2 border-white/20 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/20 transition-all duration-200"
+                  className="inline-flex items-center justify-center bg-white/80 backdrop-blur-xl border-2 border-white/50 text-[#0A1628] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/95 hover:border-[#FFB800] transition-all duration-200 shadow-lg"
                 >
                   Calculate Your Loan
                 </button>
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-8 pt-8 border-t border-slate-700">
-                <div>
-                  <div className="flex items-center gap-2 text-[#FFB800] mb-2">
-                    <TrendingUp className="w-5 h-5" />
-                    <span className="text-3xl font-bold">£7bn+</span>
+              {/* Stats - Enhanced with glassmorphism cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-white/70 backdrop-blur-md border border-white/50 rounded-2xl p-6 hover:bg-white/85 transition-all duration-200 shadow-lg">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-lg bg-[#FFB800]/20 flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-[#FFB800]" />
+                    </div>
+                    <span className="text-4xl font-bold text-[#0A1628]">£7bn+</span>
                   </div>
-                  <p className="text-sm text-slate-400">Total Lent</p>
+                  <p className="text-sm font-semibold text-[#64748B]">Total Lent</p>
                 </div>
-                <div>
-                  <div className="flex items-center gap-2 text-[#FFB800] mb-2">
-                    <Clock className="w-5 h-5" />
-                    <span className="text-3xl font-bold">5-7 Days</span>
+                <div className="bg-white/70 backdrop-blur-md border border-white/50 rounded-2xl p-6 hover:bg-white/85 transition-all duration-200 shadow-lg">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-lg bg-[#FFB800]/20 flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-[#FFB800]" />
+                    </div>
+                    <span className="text-4xl font-bold text-[#0A1628]">5-7 Days</span>
                   </div>
-                  <p className="text-sm text-slate-400">To Funding</p>
+                  <p className="text-sm font-semibold text-[#64748B]">To Funding</p>
                 </div>
-                <div>
-                  <div className="flex items-center gap-2 text-[#FFB800] mb-2">
-                    <Shield className="w-5 h-5" />
-                    <span className="text-3xl font-bold">17 Years</span>
+                <div className="bg-white/70 backdrop-blur-md border border-white/50 rounded-2xl p-6 hover:bg-white/85 transition-all duration-200 shadow-lg">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-lg bg-[#FFB800]/20 flex items-center justify-center">
+                      <Shield className="w-5 h-5 text-[#FFB800]" />
+                    </div>
+                    <span className="text-4xl font-bold text-[#0A1628]">17 Years</span>
                   </div>
-                  <p className="text-sm text-slate-400">Track Record</p>
+                  <p className="text-sm font-semibold text-[#64748B]">Track Record</p>
                 </div>
               </div>
             </div>

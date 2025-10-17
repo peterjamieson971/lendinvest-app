@@ -6,18 +6,34 @@ import { Badge } from '../components/common/Badge';
 import { UserMenu } from '../components/common/UserMenu';
 import { useAuth } from '../contexts/AuthContext';
 
+// Helper function to format date
+const formatDate = (daysAgo: number) => {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+};
+
+// Application submitted 3 days ago
+const applicationDate = formatDate(3);
+// Document verification 2 days ago
+const verificationDate = formatDate(2);
+
 const TIMELINE_STEPS = [
   {
     title: 'Application Submitted',
     description: 'Your application was successfully submitted and approved in principle',
     status: 'complete',
-    date: '14 Oct 2024'
+    date: applicationDate
   },
   {
     title: 'Document Verification',
     description: 'Our team is verifying your uploaded documents',
     status: 'complete',
-    date: '15 Oct 2024'
+    date: verificationDate
   },
   {
     title: 'Legal Review',
@@ -46,11 +62,11 @@ const TIMELINE_STEPS = [
 ];
 
 const DOCUMENTS = [
-  { name: 'Passport', date: '14 Oct 2024', status: 'verified' },
-  { name: 'Proof of Address', date: '14 Oct 2024', status: 'verified' },
-  { name: 'Bank Statements', date: '14 Oct 2024', status: 'verified' },
-  { name: 'Property Valuation', date: '14 Oct 2024', status: 'verified' },
-  { name: 'Exit Strategy', date: '14 Oct 2024', status: 'verified' }
+  { name: 'Passport', date: applicationDate, status: 'verified' },
+  { name: 'Proof of Address', date: applicationDate, status: 'verified' },
+  { name: 'Bank Statements', date: applicationDate, status: 'verified' },
+  { name: 'Property Valuation', date: applicationDate, status: 'verified' },
+  { name: 'Exit Strategy', date: applicationDate, status: 'verified' }
 ];
 
 export const Dashboard: React.FC = () => {
@@ -106,7 +122,7 @@ export const Dashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-[#0A1628] mb-2">
             Welcome back, {user?.name}
           </h1>
-          <p className="text-[#64748B]">
+          <p className="text-[#475569] font-medium">
             Here's the status of your bridging loan application
           </p>
         </div>

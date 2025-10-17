@@ -29,6 +29,13 @@ interface Bank {
 export const Step4Banking: React.FC = () => {
   const navigate = useNavigate();
 
+  // Income and Credit Check states
+  const [income, setIncome] = useState('');
+  const [creditCheckComplete, setCreditCheckComplete] = useState(false);
+  const [isCheckingCredit, setIsCheckingCredit] = useState(false);
+  const [mockCreditScore, setMockCreditScore] = useState(0);
+  const [mockCreditRating, setMockCreditRating] = useState('');
+
   const [showBankModal, setShowBankModal] = useState(false);
   const [selectedBank, setSelectedBank] = useState<Bank | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,6 +44,26 @@ export const Step4Banking: React.FC = () => {
   const [connectingStatus, setConnectingStatus] = useState('');
   const [connectingSubtext, setConnectingSubtext] = useState('');
   const [bankConnected, setBankConnected] = useState(false);
+
+  const handleCreditCheck = () => {
+    setIsCheckingCredit(true);
+    setTimeout(() => {
+      // Generate mock credit score (680-780 for good applicants)
+      const score = Math.floor(Math.random() * (780 - 680) + 680);
+      setMockCreditScore(score);
+
+      // Determine rating
+      let rating = '';
+      if (score >= 750) rating = 'Excellent';
+      else if (score >= 700) rating = 'Very Good';
+      else if (score >= 650) rating = 'Good';
+      else rating = 'Fair';
+
+      setMockCreditRating(rating);
+      setCreditCheckComplete(true);
+      setIsCheckingCredit(false);
+    }, 3000);
+  };
 
   const handleBankSelect = (bank: Bank) => {
     setSelectedBank(bank);
@@ -81,12 +108,90 @@ export const Step4Banking: React.FC = () => {
         <div className="space-y-8">
           <div>
             <h1 className="text-3xl font-bold text-[#0A1628] mb-2">
-              Verify your income instantly
+              Income & Banking Verification
             </h1>
             <p className="text-[#64748B]">
-              Connect your bank securely via Open Banking to verify your income automatically
+              Let's verify your income and connect your bank securely
             </p>
           </div>
+
+          {/* Monthly Income */}
+          <Input
+            label="Monthly Income"
+            prefix="£"
+            type="text"
+            placeholder="4,500"
+            value={income}
+            onChange={(e) => setIncome(e.target.value)}
+            helpText="Enter your gross monthly income"
+          />
+
+          {/* Credit Check */}
+          <div className="space-y-4">
+            <label className="block text-sm font-semibold text-[#0A1628]">
+              Credit Check
+            </label>
+
+            {!creditCheckComplete ? (
+              <div className="border-2 border-[#E2E8F0] rounded-lg p-6 text-center">
+                {isCheckingCredit ? (
+                  <div className="flex flex-col items-center gap-3">
+                    <LoadingSpinner size="md" />
+                    <p className="text-[#64748B]">Running soft credit check...</p>
+                    <p className="text-sm text-[#94A3B8]">This won't affect your credit score</p>
+                  </div>
+                ) : (
+                  <div>
+                    <Shield className="w-12 h-12 text-[#94A3B8] mx-auto mb-3" />
+                    <p className="text-[#64748B] mb-4">We need to verify your credit profile</p>
+                    <Button variant="secondary" onClick={handleCreditCheck}>
+                      <Shield className="w-5 h-5 mr-2" />
+                      Run Soft Credit Check
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Card highlighted className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-[#10B981]/10 rounded-lg flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6 text-[#10B981]" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="text-lg font-bold text-[#0A1628]">Credit Check Complete</h3>
+                      <Badge variant="success">Verified ✓</Badge>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm text-[#64748B]">Credit Score:</p>
+                        <p className="text-2xl font-bold text-[#0A1628]">{mockCreditScore}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-[#64748B]">Rating:</p>
+                        <p className="text-lg font-semibold text-[#0A1628]">{mockCreditRating}</p>
+                      </div>
+                    </div>
+                    <p className="text-xs text-[#64748B] mt-3">
+                      This was a soft check and won't affect your credit score
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            )}
+          </div>
+
+          {/* Open Banking Section - only show after credit check */}
+          {creditCheckComplete && income && (
+            <>
+              <div className="border-t border-[#E2E8F0] pt-6">
+                <h2 className="text-xl font-bold text-[#0A1628] mb-2">
+                  Connect Your Bank
+                </h2>
+                <p className="text-[#64748B] mb-6">
+                  Verify your income automatically via Open Banking
+                </p>
+              </div>
 
           {!bankConnected ? (
             <>
@@ -342,6 +447,8 @@ export const Step4Banking: React.FC = () => {
               </Card>
             </>
           )}
+            </>
+          )}
 
           {/* Footer */}
           <div className="flex justify-between items-center pt-6 border-t border-[#E2E8F0]">
@@ -352,7 +459,7 @@ export const Step4Banking: React.FC = () => {
             <Button
               variant="primary"
               onClick={() => navigate('/apply/step5')}
-              disabled={!bankConnected}
+              disabled={!bankConnected || !income || !creditCheckComplete}
             >
               Continue to Decision
               <ArrowRight className="w-5 h-5 ml-2" />
