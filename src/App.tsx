@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Landing } from './pages/Landing';
@@ -42,6 +43,7 @@ function App() {
           {/* Test route */}
           <Route path="/test" element={<ComponentTest />} />
         </Routes>
+        <Analytics />
       </AuthProvider>
     </Router>
   );
