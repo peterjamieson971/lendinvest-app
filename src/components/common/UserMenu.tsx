@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { User, LayoutDashboard, UserCircle, Key, LogOut, ChevronDown } from 'lucide-react';
+import { LayoutDashboard, UserCircle, Key, LogOut, ChevronDown } from 'lucide-react';
 
 export const UserMenu: React.FC = () => {
   const navigate = useNavigate();
