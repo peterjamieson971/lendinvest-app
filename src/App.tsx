@@ -5,7 +5,7 @@ import { Step1Eligibility } from './pages/apply/Step1Eligibility';
 import { Step2PropertyDetails } from './pages/apply/Step2PropertyDetails';
 import { Step3Documents } from './pages/apply/Step3Documents';
 import { Step4Banking } from './pages/apply/Step4Banking';
-import { Step5Decision as OldStep5 } from './pages/Step5Decision';
+// import { Step5Decision as OldStep5 } from './pages/Step5Decision';
 import { Step5Decision } from './pages/apply/Step5Decision';
 import { Dashboard } from './pages/Dashboard';
 import { ComponentTest } from './pages/ComponentTest';

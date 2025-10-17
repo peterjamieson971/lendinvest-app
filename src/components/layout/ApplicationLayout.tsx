@@ -1,5 +1,4 @@
 import React from 'react';
-import { Building2 } from 'lucide-react';
 import { ProgressStepper } from '../common/ProgressStepper';
 import { useNavigate } from 'react-router-dom';
 

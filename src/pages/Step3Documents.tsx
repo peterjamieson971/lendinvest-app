@@ -5,7 +5,7 @@ import { Button } from '../components/common/Button';
 import { FileUpload } from '../components/common/FileUpload';
 import { Badge } from '../components/common/Badge';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
-import { ArrowRight, ArrowLeft, Upload, FileText, CheckCircle2, Shield, AlertCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, FileText, CheckCircle2, Shield, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface UploadedFile {
@@ -35,7 +35,7 @@ export const Step3Documents: React.FC = () => {
     setUploadedFiles(prev => [...prev, ...newFiles]);
 
     // Simulate upload and processing
-    newFiles.forEach((file, index) => {
+    newFiles.forEach((file) => {
       // Upload simulation
       let progress = 0;
       const uploadInterval = setInterval(() => {
